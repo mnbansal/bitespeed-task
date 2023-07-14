@@ -1,0 +1,19 @@
+version: '1'
+
+services:
+  mysql_server:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: mydb
+      MYSQL_PASSWORD: admin
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
+  
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql_server
